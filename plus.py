@@ -1,8 +1,11 @@
 import sqlite3
+from pathlib import Path
+
+dbName = 'math.db'
 
 def initData():
     # create tabel and do the data initializision for table math_plus
-    conn = sqlite3.connect('math.db')
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     c.execute('''CREATE TABLE math_plus(left int, right int, sum int)''')
     purchases = []
@@ -19,9 +22,15 @@ def initData():
         purchases.clear()
     conn.close()
 
+def isDBExists():
+    p = Path(dbName)
+    return p.exists()
+
 def getBelow(num):
     # get plus statements for both left and right below num
-    conn = sqlite3.connect('math.db')
+    if(!isDBExists()):
+        initData()
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     sql = "SELECT * FROM math_plus WHERE left < ? and right < ?"
     statements = []
@@ -32,7 +41,10 @@ def getBelow(num):
     return statements
 
 def getSumBelow(num):
-    conn = sqlite3.connect('math.db')
+    if(!isDBExists()){
+        initData()
+    }
+    conn = sqlite3.connect(dbName)
     c = conn.cursor()
     sql = "SELECT * FROM math_plus WHERE sum <= ?"
     statements = []
