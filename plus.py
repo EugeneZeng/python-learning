@@ -28,7 +28,7 @@ def isDBExists():
 
 def getBelow(num):
     # get plus statements for both left and right below num
-    if(!isDBExists()):
+    if not isDBExists():
         initData()
     conn = sqlite3.connect(dbName)
     c = conn.cursor()
@@ -41,9 +41,8 @@ def getBelow(num):
     return statements
 
 def getSumBelow(num):
-    if(!isDBExists()){
+    if not isDBExists():
         initData()
-    }
     conn = sqlite3.connect(dbName)
     c = conn.cursor()
     sql = "SELECT * FROM math_plus WHERE sum <= ?"
